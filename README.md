@@ -1,6 +1,6 @@
 # Senior Thesis Repo: ESP32 Driven Tip-Up Alert System
 
-## Software Requirements Specification for the ESP32 driven alert system
+## Software Requirements Specification for the ESP32 Tip-Up Alert System
 
 ## Introduction
 
@@ -55,7 +55,7 @@ The following sections detail the specific use cases the system will support, de
 - The node communicates its "set" status to the central hub.
 - The central hub updates the mobile device interface to show that the tip-up is active.
 
-**2. Dtecting a Fish Strike**:
+**2. Detecting a Fish Strike**:
 - A fish pulls the line, releasing the flag into the "up" position.
 - The accelerometer detects movement and triggers an interrupt on the ESP32 node.
 - The node updates its state to "tripped" and transmits an alert to the central hub.
