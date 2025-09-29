@@ -5,7 +5,6 @@
 1. Ordered microcontrollers, accelerometer and additional accessories.
 2. Setup development environment (Arduino IDE).
 3. Ran some sample projects to understand Arduino syntax and how to interface with GPIO pins on the ESP32.
-4. Connected accelerometer to ESP32 and developed a program to display sensor readings in serial monitor (console).
 
 ### This week I learned:
 
@@ -16,14 +15,12 @@
 
 ### My successes this week were:
 
-1. Running code on the microcontroller
-2. Displaying sensor readings in the console
-   
+1. Running code on the microcontroller   
 
 ### The challenges I faced this week were:
 
-1. Serializing the data from the microcontroller into numerical values
-2. Accessing the data from the different accelerometer's registers
+1. Setting up Arduino IDE
+2. Reading data from GPIO pins
 
 ---
 
