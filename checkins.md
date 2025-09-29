@@ -9,15 +9,21 @@
 
 ### This week I learned:
 
-[Your answer here]
+1. How to flash the microcontroller with code developed in the Arduino IDE
+2. How to interface with GPIO pins
+3. How to print data from pins to the console
+4. The different Arduino libraries I can use.
 
 ### My successes this week were:
 
-[Your answer here]
+1. Running code on the microcontroller
+2. Displaying sensor readings in the console
+   
 
 ### The challenges I faced this week were:
 
-[Your answer here]
+1. Serializing the data from the microcontroller into numerical values
+2. Accessing the data from the different accelerometer's registers
 
 ---
 
