@@ -24,22 +24,22 @@
 
 ---
 
-## Week 2 Summary (MM/DD/YYYY)
+## Week 2 Summary (09/22/2025)
 ### This week I worked on:
 
-[Your answer here]
+Connecting the accelerometer to the microcontroller. I successfully accessed the accelerometer’s internal registers and displayed real-time data through the serial console in the Arduino IDE.
 
 ### This week I learned:
 
-[Your answer here]
+I learned that the accelerometer stores 2 bytes of data per axis in sequential registers. I also learned how to access these registers and correctly format the bits in my code to interpret the raw data as readable numbers.
 
 ### My successes this week were:
 
-[Your answer here]
+Successfully establishing communication between the accelerometer and the microcontroller and reading live sensor data.
 
 ### The challenges I faced this week were:
 
-[Your answer here]
+Accessing the data from the accelerometer’s registers was initially difficult since I hadn’t worked with these technologies before. After studying the accelerometer’s documentation and the I²C library, I was able to understand the communication process and extract the correct data.
 
 ---
 
