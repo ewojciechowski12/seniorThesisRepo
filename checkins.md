@@ -24,7 +24,7 @@
 
 ---
 
-## Week 2 Summary (09/22/2025)
+## Week 2 Summary (09/29/2025)
 ### This week I worked on:
 
 Connecting the accelerometer to the microcontroller. I successfully accessed the accelerometer’s internal registers and displayed real-time data through the serial console in the Arduino IDE.
@@ -43,22 +43,22 @@ Accessing the data from the accelerometer’s registers was initially difficult 
 
 ---
 
-## Week 3 Summary (MM/DD/YYYY)
+## Week 3 Summary (10/06/2025)
 ### This week I worked on:
 
-[Your answer here]
+Transmitting sensor data from one microcontroller to another. I successfully connected two ESP32s using the ESP-NOW library, which enables communication within a network of ESP32 devices.
 
 ### This week I learned:
 
-[Your answer here]
+I learned how to use the ESP-NOW library, set up a communication channel, and send and receive data packets between devices.
 
 ### My successes this week were:
 
-[Your answer here]
+Successfully transmitting sensor data from the node to the central hub.
 
 ### The challenges I faced this week were:
 
-[Your answer here]
+One major challenge was learning how to use the ESP-NOW library. I also struggled to get the devices to recognize each other at first. To resolve this, I hardcoded the MAC addresses so they could send and receive packets. In the future, I hope to dynamically detect nearby ESP32 devices and automatically establish communication with them.
 
 ---
 
