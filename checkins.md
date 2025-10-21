@@ -62,22 +62,22 @@ One major challenge was learning how to use the ESP-NOW library. I also struggle
 
 ---
 
-## Week 4 Summary (MM/DD/YYYY)
+## Week 4 Summary (10/13/2025)
 ### This week I worked on:
 
-[Your answer here]
+Setting up Xcode and getting familiar with the overall layout and workflow for iOS development. I also began exploring Swift syntax and structure so I can eventually write an app that connects to my ESP32 to recieve notifications.
 
 ### This week I learned:
 
-[Your answer here]
+I learned how Swift syntax compares to C++—specifically around classes, functions, optionals, and property wrappers like @Published. I also learned how Xcode organizes projects, handles debugging, and interfaces with frameworks like CoreBluetooth, which I plan to use to communicate with the ESP32 over Bluetooth.
 
 ### My successes this week were:
 
-[Your answer here]
+I was able to set up Xcode and begin understanding the overall workflow for iOS development. I also made progress in grasping the fundamentals of Swift, which helped me better understand some example Bluetooth code I reviewed.
 
 ### The challenges I faced this week were:
 
-[Your answer here]
+Getting familiar with Xcode was some what more challenging than I expected. The interface was unfamiliar and I ran into issues downloading and setting up the environment. I also found Swift's syntax and structure a bit confusing compared to other compiled languages like C++, so progress was slower than I hoped this week.
 
 ---
 
