@@ -5,7 +5,7 @@
 ## Introduction
 
 ### Purpose
-The purpose of this document is to define the MVP specifications and requirements for a netowork of ESP32 microcontrollers that form an ice fishing tip-up alert system.
+The purpose of this document is to define the MVP specifications and requirements for a network of ESP32 microcontrollers that form an ice fishing tip-up alert system.
 This document will highlight the core functionalities needed for the system, disregarding full implementation specifications.
 
 The key goals are:
