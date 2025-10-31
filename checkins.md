@@ -81,22 +81,22 @@ Getting familiar with Xcode was some what more challenging than I expected. The 
 
 ---
 
-## Week 5 Summary (MM/DD/YYYY)
+## Week 5 Summary (10/20/2025)
 ### This week I worked on:
 
-[Your answer here]
+Building an IOS app that can detect an ESP32 node and send a notification to my phone once connected. Currently, the app sends a notification every 10 seconds. This required working with  Apple's CoreBluetooth framework to handle device discovery and connection events.
 
 ### This week I learned:
 
-[Your answer here]
+I learned how to detect and connect to a bluetooth device through an IOS app. From there, I learned how to send a notification to the IOS device from the app. 
 
 ### My successes this week were:
 
-[Your answer here]
+I successfully created a working IOS app that detects the ESP32 and sends notifications to my phone consistently every 10 seconds. This was a major milestone in my overall goal to send an alert to my phone from a microcontroller.
 
 ### The challenges I faced this week were:
 
-[Your answer here]
+One of the main challenges was getting the IOS app to detect bluetooth devices. This was resolved by requesting for the app to access the devices bluetooth. Without requestiong permission, the app has no access to the devices peripherals.
 
 ---
 
