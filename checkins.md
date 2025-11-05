@@ -100,22 +100,22 @@ One of the main challenges was getting the IOS app to detect bluetooth devices. 
 
 ---
 
-## Week 6 Summary (MM/DD/YYYY)
+## Week 6 Summary (10/27/2025)
 ### This week I worked on:
 
-[Your answer here]
+This week I focused on cleaning up the code and getting it centralized into this GitHub repo. I reviewed and cleaned up the code before committing so it is easy to maintain moving forward. I also spent time working on project demo to present during my Sprint 1 reflection.
 
 ### This week I learned:
 
-[Your answer here]
+I learned how to better structure a multi-part project on GitHub. This included creating specific code folder to hold all of the source code while keeping the repository organized. 
 
 ### My successes this week were:
 
-[Your answer here]
+Successfully centralizing all project code and creating a more organized project workflow. I was also able to present a clear demo the functionality I accomplished so far.
 
 ### The challenges I faced this week were:
 
-[Your answer here]
+Not much direct development was done this week, so progress was slower compared to pervious weeks. The main challenge was cleaning and organizing the repository. I will continue to do this week after week in aims of maintaining a clean, organized project.
 
 ---
 
