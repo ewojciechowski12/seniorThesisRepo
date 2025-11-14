@@ -119,22 +119,22 @@ Not much direct development was done this week, so progress was slower compared 
 
 ---
 
-## Week 7 Summary (MM/DD/YYYY)
+## Week 7 Summary (11/03/2025)
 ### This week I worked on:
 
-[Your answer here]
+I began working on combining the code that 1. receives data from a peer esp32, and 2. the separate code that connects to the iOS app. This proved to be fairly difficult. The goal of this week was to have a single esp32 receiving data from a peer and sending an alert to the iOS app. However, having a bluetooth connection and ESP-NOW connection open on the same device, while working with the arduino IDE has been difficult. I am considering moving to bare c++ instead of arduino as I will save more memory but I will not have access to the handy API's that make arduino so user-friendly.
 
 ### This week I learned:
 
-[Your answer here]
+I expanded my knowledge on how bluetooth connections work and how the arduino bluetooth library handles callback functions when a device is connected. I also learned that arduino libraries are memory heavy, so much that I had to switch to a different bluetooth library that is much more lightweight when I attempted to have the same esp32 talk to a peer and also the iOS app.
 
 ### My successes this week were:
 
-[Your answer here]
+My sucesses were in what I learned. I was not able to accomplish what I set out for myself this week. This includes having one esp32 talk to another esp32 while simultaneously having a bluetooth channel open as well to send data to the iOS app.
 
 ### The challenges I faced this week were:
 
-[Your answer here]
+Managing the amount of code/libraries I am able to flash to the esp32. When working on combining the two arduino sketches, the data was too large to flash to the esp32. To combat this, I found a lighter weight bluetooth library to begin using but ran into issues trying to get the callback function to trigger when a device connected to the esp32. I spent a great deal of time trying to figure this problem out and have not found a solution to it yet.
 
 ---
 
