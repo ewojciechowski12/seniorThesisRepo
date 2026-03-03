@@ -1,0 +1,22 @@
+# ESP-IDF build outputs
+**/build/
+**/.cache/
+
+# ESP-IDF managed components
+**/managed_components/
+
+# VS Code / Eclipse settings
+.vscode/
+.idea/
+**/.settings/
+**/.cproject
+**/.project
+
+# Espressif IDE specific
+**sdkconfig.old
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
