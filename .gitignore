@@ -26,3 +26,14 @@ code/TipUpNode/CMake*
 code/TipUpNode/*.ninja*
 code/TipUpNode/app-*
 code/TipUpNode/bootloader-*
+# Additional TipUpNode build artifacts
+code/TipUpNode/config.env
+code/TipUpNode/flash_*
+code/TipUpNode/flasher_args.json
+code/TipUpNode/gdbinit/
+code/TipUpNode/kconfigs.in
+code/TipUpNode/kconfigs_projbuild.in
+code/TipUpNode/ldgen_libraries
+code/TipUpNode/ldgen_libraries.in
+code/TipUpNode/partition-table-flash_args
+code/TipUpNode/project_description.json
