@@ -20,3 +20,9 @@
 
 # Windows
 Thumbs.db
+
+# Build artifacts sitting in TipUpNode root
+code/TipUpNode/CMake*
+code/TipUpNode/*.ninja*
+code/TipUpNode/app-*
+code/TipUpNode/bootloader-*
