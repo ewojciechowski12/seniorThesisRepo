@@ -32,6 +32,10 @@
 #define CONFIG_ESPNOW_SEND_DELAY 1000
 #define CONFIG_ESPNOW_SEND_LEN 10
 
+#define ESPNOW_WIFI_MODE WIFI_MODE_STA
+#define ESPNOW_WIFI_IF   ESP_IF_WIFI_STA
+#define CONFIG_ESPNOW_ENABLE_LONG_RANGE 1
+
 #define I2C_MASTER_SCL_IO 22
 #define I2C_MASTER_SDA_IO 21
 #define I2C_MASTER_FREQ_HZ 400000
@@ -61,6 +65,7 @@ static void example_espnow_deinit(example_espnow_send_param_t *send_param);
 static void example_wifi_init(void) {
 	ESP_ERROR_CHECK(esp_netif_init());
 	ESP_ERROR_CHECK(esp_event_loop_create_default());
+	esp_netif_create_default_wifi_sta();
 	wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
 	ESP_ERROR_CHECK(esp_wifi_init(&cfg));
 	ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_RAM));
@@ -74,27 +79,32 @@ static void example_wifi_init(void) {
 		ESPNOW_WIFI_IF, WIFI_PROTOCOL_11B | WIFI_PROTOCOL_11G |
 							WIFI_PROTOCOL_11N | WIFI_PROTOCOL_LR));
 #endif
+
+	esp_wifi_set_max_tx_power(84); // max power, 84 = 21dBm
 }
 
 /* ESPNOW sending or receiving callback function is called in WiFi task.
  * Users should not do lengthy operations from this task. Instead, post
  * necessary data to a queue and handle it from a lower priority task. */
-static void example_espnow_send_cb(const esp_now_send_info_t *tx_info,
-								   esp_now_send_status_t status) {
-	example_espnow_event_t evt;
-	example_espnow_event_send_cb_t *send_cb = &evt.info.send_cb;
+static void example_espnow_send_cb(const uint8_t *mac_addr,
+                                   esp_now_send_status_t status) {
+    example_espnow_event_t evt;
+    example_espnow_event_send_cb_t *send_cb = &evt.info.send_cb;
 
-	if (tx_info == NULL) {
-		ESP_LOGE(TAG, "Send cb arg error");
-		return;
-	}
+    if (mac_addr == NULL) {
+        ESP_LOGE(TAG, "Send cb arg error");
+        return;
+    }
 
-	evt.id = EXAMPLE_ESPNOW_SEND_CB;
-	memcpy(send_cb->mac_addr, tx_info->des_addr, ESP_NOW_ETH_ALEN);
-	send_cb->status = status;
-	if (xQueueSend(s_example_espnow_queue, &evt, ESPNOW_MAXDELAY) != pdTRUE) {
-		ESP_LOGW(TAG, "Send send queue fail");
-	}
+    evt.id = EXAMPLE_ESPNOW_SEND_CB;
+    memcpy(send_cb->mac_addr, mac_addr, ESP_NOW_ETH_ALEN);
+    send_cb->status = status;
+    if (xQueueSend(s_example_espnow_queue, &evt, 0) != pdTRUE) {
+        ESP_LOGW(TAG, "Send send queue fail");
+    }
+
+    ESP_LOGI(TAG, "Alert sent to central, status: %s",
+             status == ESP_NOW_SEND_SUCCESS ? "SUCCESS" : "FAILED");
 }
 
 static void example_espnow_recv_cb(const esp_now_recv_info_t *recv_info,
@@ -179,7 +189,7 @@ static void example_espnow_task(void *pvParameter) {
 	bool is_broadcast = false;
 	int ret;
 
-	vTaskDelay(5000 / portTICK_PERIOD_MS);
+	vTaskDelay(1000 / portTICK_PERIOD_MS);
 	ESP_LOGI(TAG, "Start sending broadcast data");
 
 	/* Start sending broadcast ESPNOW data. */
@@ -316,7 +326,7 @@ static esp_err_t example_espnow_init(void) {
 		CONFIG_ESPNOW_WAKE_INTERVAL));
 #endif
 	/* Set primary master key. */
-	ESP_ERROR_CHECK(esp_now_set_pmk((uint8_t *)CONFIG_ESPNOW_PMK));
+	//ESP_ERROR_CHECK(esp_now_set_pmk((uint8_t *)CONFIG_ESPNOW_PMK));
 
 	/* Add broadcast peer information to peer list. */
 	esp_now_peer_info_t *peer = malloc(sizeof(esp_now_peer_info_t));
@@ -348,11 +358,11 @@ static esp_err_t example_espnow_init(void) {
 	send_param->unicast = false;
 	send_param->broadcast = true;
 	send_param->state = 0;
-	send_param->count = CONFIG_ESPNOW_SEND_COUNT;
+	send_param->count = 1;
 	send_param->delay = CONFIG_ESPNOW_SEND_DELAY;
 	send_param->len = CONFIG_ESPNOW_SEND_LEN;
 
-	const char *msg = "Hello from node!";
+	const char *msg = "Flag Tripped!";
 	int payload_len = strlen(msg) + 1; // include null terminator
 	int total_len = sizeof(example_espnow_data_t) + payload_len;
 
@@ -492,24 +502,23 @@ void app_main(void) {
 	ESP_LOGI(TAG, "Wakeup cause: %d", cause);
 	
 	if(cause == ESP_SLEEP_WAKEUP_EXT0){
-		// Woke from MPU-6050 INT pin - flag tripped!
-		//example_wifi_init();
-		//example_espnow_init();
-		ESP_LOGI(TAG, "WOKE FROM INTERRUPT! GOING BACK TO BED!");
-		clear_mpu6050_interrupt();
+	    ESP_LOGI(TAG, "Woke from interrupt, initializing WiFi...");
+	    example_wifi_init();
+	    ESP_LOGI(TAG, "WiFi init done, initializing ESP-NOW...");
+
+	    esp_err_t err = example_espnow_init();
+	    if(err != ESP_OK){
+	        ESP_LOGE(TAG, "ESP-NOW init failed: %s", esp_err_to_name(err));
+	    } else {
+	        ESP_LOGI(TAG, "ESP-NOW init done, waiting for send...");
+	        vTaskDelay(pdMS_TO_TICKS(5000));
+	        clear_mpu6050_interrupt();
+	        ESP_LOGI(TAG, "Alert sent, going back to sleep.");
+	    }
 	} else {
 		// First boot - configure MPU-6050
 		configureMPU_6050();
 	}
-	
-	// Debug - check INT pin state before sleeping
-	gpio_config_t io_conf = {
-	    .pin_bit_mask = (1ULL << GPIO_NUM_33),
-	    .mode = GPIO_MODE_INPUT,
-	};
-	gpio_config(&io_conf);
-	ESP_LOGI(TAG, "GPIO 33 state before sleep: %d", gpio_get_level(GPIO_NUM_33));
-	
 	
 	ESP_LOGI(TAG, "GOING TO SLEEP");
 	esp_sleep_enable_ext0_wakeup(GPIO_NUM_33, 1);

@@ -24,6 +24,9 @@
 #define CONFIG_ESPNOW_CHANNEL 6
 #define CONFIG_ESPNOW_LMK "lmk1234567890123"
 #define CONFIG_ESPNOW_PMK "pmk1234567890123"
+#define ESPNOW_WIFI_MODE WIFI_MODE_STA
+#define ESPNOW_WIFI_IF   ESP_IF_WIFI_STA
+#define CONFIG_ESPNOW_ENABLE_LONG_RANGE 1
 
 
 static const char *TAG = "central";
@@ -37,6 +40,7 @@ static uint8_t s_example_broadcast_mac[ESP_NOW_ETH_ALEN] = {0xFF, 0xFF, 0xFF,
 static void example_wifi_init(void) {
 	ESP_ERROR_CHECK(esp_netif_init());
 	ESP_ERROR_CHECK(esp_event_loop_create_default());
+	esp_netif_create_default_wifi_sta();
 	wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
 	ESP_ERROR_CHECK(esp_wifi_init(&cfg));
 	ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_RAM));
@@ -109,6 +113,9 @@ int example_espnow_data_parse(uint8_t *data, uint16_t data_len, uint8_t *state,
 	buf->crc = 0;
 	crc_cal = esp_crc16_le(UINT16_MAX, (uint8_t const *)buf, data_len);
 
+	// Add this:
+	ESP_LOGI(TAG, "Parsing data, len:%d, crc_received:%d, crc_calc:%d",
+	         data_len, crc, crc_cal);
 	if (crc_cal == crc) {
 		return buf->type;
 	}
@@ -138,8 +145,8 @@ static void example_espnow_task(void *pvParameter) {
 
 			if (ret != -1) {
 
-				ESP_LOGI(TAG, "Flag Tripped! Notification from:  " MACSTR,
-						 MAC2STR(recv_cb->mac_addr), recv_cb->data_len);
+				ESP_LOGI(TAG, "Flag Tripped! Notification from: " MACSTR,
+				         MAC2STR(recv_cb->mac_addr));
 				// Future : trigger alarm / LED / bluetooth stack to send
 				// notification
 
@@ -170,7 +177,7 @@ static esp_err_t example_espnow_init(void) {
 		CONFIG_ESPNOW_WAKE_INTERVAL));
 #endif
 	/* Set primary master key. */
-	ESP_ERROR_CHECK(esp_now_set_pmk((uint8_t *)CONFIG_ESPNOW_PMK));
+	//ESP_ERROR_CHECK(esp_now_set_pmk((uint8_t *)CONFIG_ESPNOW_PMK));
 
 	/* Add broadcast peer information to peer list. */
 	esp_now_peer_info_t *peer = malloc(sizeof(esp_now_peer_info_t));
