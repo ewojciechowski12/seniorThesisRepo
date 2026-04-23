@@ -3,8 +3,9 @@
 
 idf_component_register(
     SRCS main.c         # list the source files of this component
-    INCLUDE_DIRS        # optional, add here public include directories
+    INCLUDE_DIRS "."      # optional, add here public include directories
     PRIV_INCLUDE_DIRS   # optional, add here private include directories
-    REQUIRES            # optional, list the public requirements (component names)
+    REQUIRES esp_wifi esp_http_server nvs_flash esp_netif esp_event
+    EMBED_TXTFILES "index.html"
     PRIV_REQUIRES       # optional, list the private requirements
 )
