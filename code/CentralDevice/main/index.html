@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tip-Up Status</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #0f172a;
+      color: #e2e8f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .card {
+      background-color: #1e293b;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      text-align: center;
+      width: 300px;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+      font-size: 1.5em;
+    }
+
+    .status {
+      font-size: 2em;
+      font-weight: bold;
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 12px;
+    }
+
+    .tripped {
+      background-color: #7f1d1d;
+      color: #fecaca;
+    }
+
+    .set {
+      background-color: #14532d;
+      color: #bbf7d0;
+    }
+
+    .timestamp {
+      margin-top: 15px;
+      font-size: 0.9em;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>Tip-Up Node #1</h1>
+
+    <!-- Change class to "set" or "tripped" -->
+    <div class="status tripped">
+      TRIPPED
+    </div>
+
+    <div class="timestamp">
+      Last update: just now
+    </div>
+  </div>
+
+</body>
+</html>

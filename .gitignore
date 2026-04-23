@@ -2,38 +2,60 @@
 **/build/
 **/.cache/
 
+# In-place Espressif IDE build artifacts
+**/.bin_timestamp
+**/.ninja_deps
+**/.ninja_log
+**/app-flash_args
+**/app-template.bin
+**/app-template.elf
+**/app-template.map
+**/bootloader-flash_args
+**/bootloader-prefix/
+**/bootloader/
+**/build.ninja
+**/cmake_install.cmake
+**/compile_commands.json
+**/config.env
+**/config/
+**/esp-idf/
+**/flash_app_args
+**/flash_args
+**/flash_args.in
+**/flash_bootloader_args
+**/flash_project_args
+**/flasher_args.json
+**/gdbinit/
+**/kconfigs.in
+**/kconfigs_projbuild.in
+**/ldgen_libraries
+**/ldgen_libraries.in
+**/log/
+**/partition-table-flash_args
+**/partition_table/
+**/project_description.json
+**/project_elf_src_esp32.c
+**/x509_crt_bundle.S
+**/*.a
+**/*.map
+**/*.bin
+**/*.elf
+**/*.ninja
+.metadata/
+
 # ESP-IDF managed components
 **/managed_components/
 
-# VS Code / Eclipse settings
+# IDE settings
 .vscode/
 .idea/
 **/.settings/
 **/.cproject
 **/.project
-
-# Espressif IDE specific
 **sdkconfig.old
 
-# macOS
+# OS files
 .DS_Store
-
-# Windows
 Thumbs.db
 
-# Build artifacts sitting in TipUpNode root
-code/TipUpNode/CMake*
-code/TipUpNode/*.ninja*
-code/TipUpNode/app-*
-code/TipUpNode/bootloader-*
-# Additional TipUpNode build artifacts
-code/TipUpNode/config.env
-code/TipUpNode/flash_*
-code/TipUpNode/flasher_args.json
-code/TipUpNode/gdbinit/
-code/TipUpNode/kconfigs.in
-code/TipUpNode/kconfigs_projbuild.in
-code/TipUpNode/ldgen_libraries
-code/TipUpNode/ldgen_libraries.in
-code/TipUpNode/partition-table-flash_args
-code/TipUpNode/project_description.json
+code/TipUpNode/CMakeFiles/
