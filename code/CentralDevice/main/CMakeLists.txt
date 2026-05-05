@@ -9,3 +9,5 @@ idf_component_register(
     EMBED_TXTFILES "index.html"
     PRIV_REQUIRES       # optional, list the private requirements
 )
+
+target_add_binary_data(${COMPONENT_LIB} "index.html" TEXT)

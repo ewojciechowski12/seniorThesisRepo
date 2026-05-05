@@ -39,6 +39,8 @@ static const char *TAG = "central";
 static QueueHandle_t s_example_espnow_queue = NULL;
 static uint8_t s_example_broadcast_mac[ESP_NOW_ETH_ALEN] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 
+static bool tip_up_tripped = false;
+
 /* WiFi should start before using ESPNOW */
 static void example_wifi_init(void) {
     ESP_ERROR_CHECK(esp_netif_init());
@@ -96,6 +98,23 @@ esp_err_t root_handler(httpd_req_t *req) {
     return ESP_OK;
 }
 
+// POST /reset, resets the alert status of the tip-up node
+esp_err_t reset_handler(httpd_req_t *rep){
+    tip_up_tripped = false;
+    httpd_resp_set_type(rep, "text/html");
+    httpd_resp_send(rep, "OK", 2);
+    return ESP_OK;
+}
+
+// GET /status, returns the current status of the tip-up node (SET or TRIPPED)
+static esp_err_t status_handler(httpd_req_t *req){
+    char resp[32];
+    snprintf(resp, sizeof(resp), "{\"status\":\"%s\"}", tip_up_tripped ? "tripped" : "set");
+    httpd_resp_set_type(req, "application/json");
+    httpd_resp_send(req, resp, strlen(resp));
+    return ESP_OK;      
+}
+
 void start_webserver(void) {
     httpd_config_t config = HTTPD_DEFAULT_CONFIG();
     httpd_handle_t server = NULL;
@@ -107,7 +126,24 @@ void start_webserver(void) {
             .handler  = root_handler,
             .user_ctx = NULL
         };
+
+        httpd_uri_t reset = {
+            .uri      = "/reset",
+            .method   = HTTP_POST,
+            .handler  = reset_handler,
+            .user_ctx = NULL
+        };
+
+        httpd_uri_t status = {
+            .uri      = "/status",
+            .method   = HTTP_GET,
+            .handler  = status_handler,
+            .user_ctx = NULL
+        };
+
         httpd_register_uri_handler(server, &root);
+        httpd_register_uri_handler(server, &reset);
+        httpd_register_uri_handler(server, &status);
         ESP_LOGI(TAG, "Web server started");
     }
 }
@@ -117,6 +153,7 @@ void start_webserver(void) {
 static void example_espnow_recv_cb(const esp_now_recv_info_t *recv_info,
                                    const uint8_t *data, int len) {
     ESP_LOGI(TAG, "recv_cb fired!");
+    tip_up_tripped = true; // Set the tip-up status to tripped when a packet is received
     example_espnow_event_t evt;
     example_espnow_event_recv_cb_t *recv_cb = &evt.info.recv_cb;
     uint8_t *mac_addr = recv_info->src_addr;

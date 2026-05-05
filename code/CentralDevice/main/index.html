@@ -59,16 +59,38 @@
 
   <div class="card">
     <h1>Tip-Up Node #1</h1>
-
-    <!-- Change class to "set" or "tripped" -->
-    <div class="status tripped">
-      TRIPPED
-    </div>
-
-    <div class="timestamp">
-      Last update: just now
-    </div>
+    <div class="status set" id="statusBox">SET</div>>    
+    <div class="timestamp" id="timestamp">Last update: just now</div>
+    <button id="resetBtn" onclick="resetAlert()">Reset Alert</button>
   </div>
+
+  <script>
+    async function fetchStatus(){
+      try{
+        const res = await fetch('/status');
+        const data = await res.json();
+        const statusBox = document.getElementById('statusBox');
+        const btn = document.getElementById('resetBtn');
+        const ts = document.getElementById('timestamp');
+
+        statusBox.className = 'status ' + data.status;
+        statusBox.textContent = data.status.toUpperCase();
+        ts.textContent = 'Last update: ' + data.timestamp;
+        btn.style.display = data.status === 'tripped' ? 'block' : 'none';
+        ts.textContent = 'Last update: ' + data.timestamp;
+      }catch(e){
+        console.error('Poll failed:', e);
+      }
+    }
+
+    async function resetAlert(){
+      await fetch('reset', { method: 'POST' });
+      fetchStatus();
+    }
+
+    setInterval(fetchStatus, 5000);
+    fetchStatus();
+  </script>
 
 </body>
 </html>
